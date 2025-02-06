@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <RootLayoutClient>
-      <div className="max-w-[768px] mx-auto p-4">{children}</div>
+      <div className="max-w-[1024px] mx-auto p-4">{children}</div>
     </RootLayoutClient>
   );
 }

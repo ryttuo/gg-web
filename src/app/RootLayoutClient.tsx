@@ -5,22 +5,8 @@ import { AppStateProvider, useAppState } from './context/appStateContext';
 import { useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useRouter } from 'next/navigation';
+import { Header } from './components/Header';
 const inter = Inter({ subsets: ['latin'] });
-
-interface AuthenticatedLayoutProps {
-  children: React.ReactNode;
-}
-
-function AuthenticatedLayout({ children }: Readonly<AuthenticatedLayoutProps>) {
-  return (
-    <div
-      className="w-full overflow-auto pb-12 md:pb-0"
-      style={{ height: 'calc(100vh)' }}
-    >
-      {children}
-    </div>
-  );
-}
 
 interface RootLayoutClientProps {
   children: React.ReactNode;
@@ -44,7 +30,9 @@ export default function RootLayoutClient({
       <body className={inter.className}>
         <AppStateProvider>
           <AppInitializer />
-          <AuthenticatedLayout>{children}</AuthenticatedLayout>
+          <Header />
+          {/* <AuthenticatedLayout>{children}</AuthenticatedLayout> */}
+          {children}
         </AppStateProvider>
       </body>
     </html>
