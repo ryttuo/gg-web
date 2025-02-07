@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAppState } from "../context/appStateContext";
+import { Button } from "./ui/Button";
 
 export const Header = () => {
   const router = useRouter();
@@ -15,37 +16,30 @@ export const Header = () => {
 
   return (
     <div className="flex justify-between items-center p-4 bg-gray-200">
-      <Link href="/">Home</Link>
+      <Link href="/" className="text-2xl">🏠</Link>
       <div className="flex gap-4 items-center">
         {user && (
-            <>
-            <span className="text-gray-600">
-            {user.email}
-          </span>
-          <Link
-            href="/alert/new"
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
-            >
-              New Alert
+          <>
+            <span className="text-sm text-blue-600">
+              {user.email}
+            </span>
+            <Link href="/alert/new">
+              <Button variant="primary">New Alert</Button>
             </Link>
           </>
         )}
         {user ? (
           <>
-            
-            <button
+            <Button 
               onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+              variant="secondary"
             >
               Logout
-            </button>
+            </Button>
           </>
         ) : (
-          <Link 
-            href="/auth/login"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-          >
-            Login
+          <Link href="/auth/signin">
+            <Button variant="primary">Login</Button>
           </Link>
         )}
       </div>

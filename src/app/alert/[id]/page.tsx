@@ -4,6 +4,8 @@ import { use, useEffect, useState } from 'react';
 import { Alert } from '../../common/interfaces';
 import { AlertService } from '../../services/alert.service';
 import Link from 'next/link';
+import { Button } from '../../components/ui/Button';
+import { Title } from '@/app/components/ui/Title';
 
 export default function AlertPage({
   params,
@@ -25,8 +27,6 @@ export default function AlertPage({
           alert_type: '',
           status: false,
           description: '',
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
         });
         return;
       }
@@ -76,7 +76,12 @@ export default function AlertPage({
   if (isEditing && formData) {
     return (
       <div className="p-8">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full">
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full mx-auto">
+          {resolvedParams.id === 'new' && (
+            <div className="flex justify-center mb-6">
+              <Title text="Create New Alert" size="large" />
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="font-semibold block mb-2">Name:</label>
@@ -91,13 +96,22 @@ export default function AlertPage({
             
             <div>
               <label className="font-semibold block mb-2">Type:</label>
-              <input
-                type="text"
+              <select
                 name="alert_type"
                 value={formData.alert_type}
-                onChange={handleInputChange}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                  const { name, value } = e.target;
+                  setFormData(prev => prev ? { ...prev, [name]: value } : null);
+                }}
                 className="w-full p-2 border rounded"
-              />
+              >
+                <option value="guard">👮 Guard</option>
+                <option value="time">⏰ Time</option>
+                <option value="misbehavior">⚠️ Misbehavior</option>
+                <option value="altercation">🤼 Altercation</option>
+                <option value="suspicious">🔍 Suspicious</option>
+                <option value="other">❓ Other</option>
+              </select>
             </div>
             
             <div>
@@ -124,18 +138,12 @@ export default function AlertPage({
             </div>
 
             <div className="flex gap-4">
-              <Link
-                href="/"
-                className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors"
-              >
-                Cancel
+              <Link href="/">
+                <Button variant="secondary">Cancel</Button>
               </Link>
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-              >
+              <Button type="submit" variant="primary">
                 {resolvedParams.id === 'new' ? 'Create Alert' : 'Save Changes'}
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -145,8 +153,8 @@ export default function AlertPage({
 
   return (
     <div className="p-8">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full">
-        <h1 className="text-3xl font-bold mb-6">{alert?.name}</h1>
+      <div className={`bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full border-2 mx-auto ${alert?.status ? 'border-green-500' : 'border-gray-200'}`}>
+        <Title text={alert?.name || ''} size="large" />
         
         <div className="space-y-4">
           <div>
@@ -156,7 +164,11 @@ export default function AlertPage({
           
           <div>
             <label className="font-semibold">Status:</label>
-            <p>{alert?.status ? 'Active' : 'Inactive'}</p>
+            <p>
+              <span className={`${alert?.status ? 'bg-green-100 border border-green-500 px-2 py-0.5 rounded' : ''}`}>
+                {alert?.status ? 'Active' : 'Inactive'}
+              </span>
+            </p>
           </div>
           
           <div>
@@ -164,18 +176,12 @@ export default function AlertPage({
             <p>{alert?.description}</p>
           </div>
           <div className="flex gap-4">
-            <Link 
-              href="/"
-              className="inline-block bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors mt-4"
-            >
-              Back to Home
+            <Link href="/">
+              <Button variant="secondary">Back to Home</Button>
             </Link>
-            <button
-              onClick={() => setIsEditing(true)}
-              className="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4"
-            >
+            <Button onClick={() => setIsEditing(true)} variant="primary">
               Edit Alert
-            </button>
+            </Button>
           </div>
         </div>
       </div>

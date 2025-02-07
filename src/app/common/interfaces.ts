@@ -1,5 +1,7 @@
 export type AuthType = 'signin' | 'signup';
 
+export type AlertType = 'guard' | 'time' | 'misbehavior' | 'altercation' |'suspicious' | 'other';
+
 export interface User {
   id?: number;
   email: string;
@@ -43,4 +45,9 @@ export interface ButtonProps {
   className?: string;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+}
+
+export interface TitleProps {
+  text: string;
+  size?: 'small' | 'medium' | 'large';
 }

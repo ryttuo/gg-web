@@ -1,6 +1,9 @@
 import React from 'react';
-import { Alert } from '../common/interfaces';
+import { Alert, AlertType } from '../common/interfaces';
 import Link from 'next/link';
+import { Button } from './ui/Button';
+import { Title } from './ui/Title';
+import { AlertIcon } from './ui/AlertIcon';
 
 export const AlertCard: React.FC<{
   alert: Alert;
@@ -12,23 +15,20 @@ export const AlertCard: React.FC<{
         alert.status ? 'border-2 border-green-500 bg-green-100' : ''
       }`}
     >
-      <h3 className="font-bold text-lg mb-2">{alert.name}</h3>
+      <Title text={alert.name} size="medium" />
       <div className="space-y-2">
-        <p className="text-gray-600">{alert.alert_type}</p>
+        <AlertIcon alertType={alert.alert_type as AlertType} />
       </div>
       <div className="flex gap-2 mt-4">
-        <Link
-          href={`/alert/${alert.id}`}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors inline-block"
-        >
-          View Details
+        <Link href={`/alert/${alert.id}`}>
+          <Button variant="primary">View Details</Button>
         </Link>
-        <button
+        <Button
           onClick={() => onDelete(alert.id)}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+          variant="secondary"
         >
           Delete
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -16,11 +16,11 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       className={`${
         variant === 'primary'
-          ? 'bg-green-200 text-green-700 hover:bg-green-300'
+          ? 'border-blue-500 text-blue-700 hover:bg-blue-50'
           : variant === 'secondary'
-          ? 'bg-orange-200 text-orange-700 hover:bg-orange-300'
-          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-      } font-semibold py-2 px-4 rounded border ${className}`}
+          ? 'border-red-500 text-red-700 hover:bg-red-50'
+          : 'border-gray-500 text-gray-700 hover:bg-gray-50'
+      } font-semibold py-1 px-3 rounded-lg border-2 ${className}`}
     >
       {children}
     </button>
