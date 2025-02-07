@@ -99,10 +99,7 @@ export default function AlertPage({
               <select
                 name="alert_type"
                 value={formData.alert_type}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                  const { name, value } = e.target;
-                  setFormData(prev => prev ? { ...prev, [name]: value } : null);
-                }}
+                onChange={handleInputChange}
                 className="w-full p-2 border rounded"
               >
                 <option value="guard">👮 Guard</option>
@@ -113,7 +110,6 @@ export default function AlertPage({
                 <option value="other">❓ Other</option>
               </select>
             </div>
-            
             <div>
               <label className="font-semibold block mb-2">Status:</label>
               <input
