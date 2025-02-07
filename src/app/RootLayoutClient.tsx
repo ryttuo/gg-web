@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google';
 import { AppStateProvider, useAppState } from './context/appStateContext';
 import { useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css'
-import { useRouter } from 'next/navigation';
 import { Header } from './components/Header';
 const inter = Inter({ subsets: ['latin'] });
 

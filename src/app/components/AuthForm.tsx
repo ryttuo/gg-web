@@ -19,11 +19,13 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
     first_name: '',
     last_name: '',
   });
+  const [error, setError] = useState<string>('');
   const authService = new AuthService();
   const { setAuth, setLoading } = useAppState();
 
   const handleAuth = async () => {
     try {
+      setError('');
       setLoading(true);
       let authResponse: AuthResponse | null = null;
       if (type === 'signin') {
@@ -40,8 +42,13 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       setAuth(authResponse);
 
       router.push('/');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error during authentication:', error);
+      if (error.response?.status === 401) {
+        setError(error.response.data.error);
+      } else {
+        setError('An error occurred during authentication');
+      }
     } finally {
       setLoading(false);
     }
@@ -135,6 +142,11 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
             required
           />
+          {error && (
+            <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md border border-red-200 mt-2">
+              {error}
+            </div>
+          )}
         </div>
         <Button
           onClick={(e) => {
